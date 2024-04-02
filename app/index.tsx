@@ -1,64 +1,47 @@
-import { Stack, Link } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 export default function Page() {
+  const router = useRouter();
+  const [channel, setChannel] = useState('1');
+
+  const onJoin = () => {
+    router.navigate(`/channel/${channel}`);
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Stack.Screen options={{ title: 'Overview' }} />
-        <View>
-          <Text style={styles.title}>Hello World</Text>
-          <Text style={styles.subtitle}>This is the first page of your app.</Text>
-        </View>
-        <Link href={{ pathname: '/details', params: { name: 'Dan' } }} asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Show Details</Text>
-          </TouchableOpacity>
-        </Link>
-      </View>
+    <View>
+      <TextInput
+        value={channel}
+        onChangeText={setChannel}
+        style={styles.input}
+        inputMode="numeric"
+      />
+      <TouchableOpacity onPress={onJoin} style={styles.button}>
+        <Text style={styles.text}>Join</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  input: {
+    borderColor: '#808080',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    margin: 8,
+  },
   button: {
+    backgroundColor: '#2E8A58',
+    borderRadius: 8,
+    padding: 12,
+    margin: 8,
     alignItems: 'center',
-    backgroundColor: '#6366F1',
-    borderRadius: 24,
-    elevation: 5,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
-  buttonText: {
-    color: '#FFFFFF',
+  text: {
+    color: 'white',
     fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    maxWidth: 960,
-    marginHorizontal: 'auto',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    color: '#38434D',
-    fontSize: 36,
   },
 });
